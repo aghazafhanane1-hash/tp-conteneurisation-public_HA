@@ -1,0 +1,51 @@
+
+Créer une image Docker avec une lapp front Hello world en React (Utilisation de Dockerfile) 
+
+#Pour run localement
+> docker build . -t react_hello
+
+•  Lit le Dockerfile dans le dossier courant
+•  Exécute chaque instruction (FROM, COPY, RUN npm install, etc.)
+•  Génère une nouvelle image appelée react_hello
+•  Sauvegarde cette image localement pour que tu puisses créer des conteneurs à partir d’elle
+
+
+>docker run -it -p 5173:5173 react_hello
+
+•  docker run → crée et lance un conteneur à partir de l’image.
+•  -it → mode interactif avec terminal pour voir les logs de l’application en direct.
+•  -p 5173:5173 → mappe le port 5173 du conteneur vers le port 5173 de ta machine.
+•  react_hello → nom de l’image que tu as construite
+
+
+#Pour deployer l'application en utilisant le docker-composee.yml
+
+Construire l' image en local, crée un conteneur lutilisant et accéder à l'app
+
+docker-compose up -d –build
+
+•  Démarre les conteneurs définis dans ton docker-compose.yml
+•	Crée et exécute tous les services déclarés 
+•	Si le conteneur existe déjà, il le réutilise
+•  Crée les réseaux et volumes si ils sont définis dans le fichier docker-compose.yml
+•  Affiche les logs dans le terminal pour voir ce que fait chaque conteneur en temps réel
+
+#L’option --build
+•	Force la reconstruction des images avant de démarrer les conteneurs
+•	Utile si tu as modifié le Dockerfile ou changé des dépendances de ton application
+•	Sans --build, Docker Compose utilise simplement les images existantes
+Docker composer up :si la imgen esta preparada y yno se relizo ningún cambio en Docker file 
+
+#Pour publier l'image sur DockerHub:
+Cree une compte dans dockerhub 
+depuis la terminal accéder a dockerhub 
+
+Pour publier limage sur DockerHub:
+    $docker login
+    -> Login Succeeded
+
+docker tag react-hello hanane10hanazaf/react-hello:latest-etiqueta
+
+docker push hanane10hanazaf/react-hello:latest-upload  
+
+https://hub.docker.com/repositories/hanane10hanazaf

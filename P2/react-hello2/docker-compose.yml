@@ -1,0 +1,40 @@
+services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    depends_on:
+      - backend
+    
+
+  backend:
+    build: ./backend
+    ports:
+      - "${BACKEND_PORT}:3000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=3306
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - db
+  
+
+  db:
+    image: mysql:8
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql  
+      #Cette ligne monte le fichier local init.sql dans le conteneur MySQL, dans le dossier spécial /docker-entrypoint-initdb.d/.
+      #Au premier démarrage de la base de données, MySQL exécute automatiquement ce fichier pour créer les tables et insérer les données.  
+volumes:
+  db_data:
